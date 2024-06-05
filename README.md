@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Organ-Donation-Management-System
 
 <img src= "https://github.com/Al-Shafi-Github/Organ-Donation-Management-System/assets/68460013/0862ba26-c16f-462f-824a-1d8564592bf6" alt= "Index">
@@ -43,3 +44,7 @@ LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/in/abdullah-al-shafi2
 
 
 
+=======
+# organ-donation-management-system
+organ donation is used to help the who are in need of organs .By making it online it is easy to access the organs fastlyy
+>>>>>>> c118a9b55fa962d210a93ef005f51383fb16bf8c
