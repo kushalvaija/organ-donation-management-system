@@ -1,6 +1,5 @@
 <?php
-    
-    $user = $_REQUEST['EMAIL'];
+$user = $_REQUEST['EMAIL'];
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +40,7 @@
                         <h3 class="text-left" style="font-size:30px;font-family: 'Poppins', sans-serif; font-weight:700; color:azure;">Donation Record</h3>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-5 col-xl-4 m-auto pt-4 pt-sm-0">
-                        <div class="su-inner-banner-img"><img alt="image" class="img-fluid" style="padding: 25px 0px 25px;" src="images/recorddata.png"></div>
+                        <div class="su-inner-banner-img"><img alt="image" class="img-fluid" style="padding: 25px 0px 25px;" src="images/02.jpg"></div>
                     </div>
                 </div>
             </div>
@@ -53,22 +52,23 @@
                 <section class="col-l4 col-sm-6">
                     <?php
                     $qu1 = "SELECT * FROM registration WHERE EMAIL = '$user'";
-                    $con = new mysqli('localhost', 'root', '', 'organdb');
+                    $con = new mysqli('localhost', 'root', '', 'register');
                     $values = mysqli_query($con, $qu1);
                     $id = "";
                     while ($row = mysqli_fetch_assoc($values)) {
                         $id = $row['REGISTRATION_ID'];
                     }
                     if (isset($_POST['submit'])) {
-                        $organ_typeD = $_POST['ORGAN_TYPEd'];
-                        $bloodgroupD = $_POST['BLOOD_GROUPd'];
-                        $quantityD = $_POST['QUANTITYd'];
+                        $organ_type = $_POST['ORGAN_TYPE'];
+                        $blood_group = $_POST['BLOOD_GROUP'];
+                        $quantity = $_POST['QUANTITY'];
                         $short_note = $_POST['short_note'];
-                        $con = new mysqli('localhost', 'root', '', 'organdb');
-                        $stmt = $con->prepare("INSERT INTO donation_record(REGISTRATION_ID,ORGAN_TYPEd,BLOOD_GROUPd,QUANTITYd,short_note)
-                            values(?,?,?,?,?)");
-                        $stmt->bind_param("issis", $id,$organ_typeD,$bloodgroupD,$quantityD,$short_note);
-                        $stmt->execute();
+                        $con = new mysqli('localhost', 'root', '', 'register');
+                        
+                        $donation_date = date('Y-m-d'); // Get current date in YYYY-MM-DD format
+                        $stmt = $con->prepare("INSERT INTO donation_record(REGISTRATION_ID, Donation_Date, ORGAN_TYPE, BLOOD_GROUP, QUANTITY, short_note) VALUES (?, ?, ?, ?, ?, ?)");
+                        $stmt->bind_param("isssss", $id, $donation_date, $organ_type, $blood_group, $quantity, $short_note);
+                         $stmt->execute();
                         // echo "RECORD Succesfull";
                         $stmt->close();
                         $con->close();
@@ -84,7 +84,7 @@
                     <div class="mb-4">
                             <label for="exampleInputPassword1" class="form-label">Organ Type</label>
                             <div>
-                                <select class="form-select" aria-label="Default select example" name="ORGAN_TYPEd">
+                                <select class="form-select" aria-label="Default select example" name="ORGAN_TYPE">
                                     <option selected disabled>Select Group </option>
                                     <option value="Kidney">Kidney</option>
                                     <option value="Liver">Liver</option>
@@ -100,7 +100,7 @@
                         <div class="mb-4">
                             <label for="exampleInputPassword1" class="form-label">Blood Group</label>
                             <div>
-                                <select class="form-select" aria-label="Default select example" name="BLOOD_GROUPd">
+                                <select class="form-select" aria-label="Default select example" name="BLOOD_GROUP">
                                     <option selected disabled> Select Group </option>
                                     <option value="A+">A+</option>
                                     <option value="A-">A-</option>
@@ -117,7 +117,7 @@
                         <div class="mb-4">
                             <label for="exampleInputPassword1" class="form-label">Quantity</label>
                             <div>
-                                <select class="form-select" aria-label="Default select example" name="QUANTITYd">
+                                <select class="form-select" aria-label="Default select example" name="QUANTITY">
                                     <option selected disabled> Select Quantity</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -152,25 +152,26 @@
                     </thead>
 
                         <?php
-                        $con = new mysqli('localhost', 'root', '', 'organdb');
+                        $con = new mysqli('localhost', 'root', '', 'register');
                         $qu2 = "SELECT * FROM donation_record WHERE REGISTRATION_ID = '$id'";
                         $val = mysqli_query($con, $qu2);
                         while ($row = mysqli_fetch_assoc($val)) {
-                            $donation = $row['last_donated'];
-                            $organ_typed= $row ['ORGAN_TYPEd'];
-                            $grp = $row['BLOOD_GROUPd'];
-                            $quan = $row['QUANTITYd'];
+                            $donation = $row['Donation_Date']; // Here you're fetching the donation date from the database
+                            $organ_type = $row['ORGAN_TYPE'];
+                            $blood_group = $row['BLOOD_GROUP'];
+                            $quantity = $row['QUANTITY'];
                             $note = $row['short_note'];
                         ?>
-                    <tbody>
-                        <tr>
-                            <td><?php echo $donation;?></td>
-                            <td><?php echo $organ_typed;?></td>
-                            <td><?php echo $grp;?></td>
-                            <td><?php echo $quan;?></td>
-                            <td><?php echo $note;?></td>
-                        </tr>
-                    </tbody>
+                        <tbody>
+                            <tr>
+                                <td><?php echo isset($donation) ? $donation : ""; ?></td> <!-- Displaying the donation date -->
+                                <td><?php echo isset($organ_type) ? $organ_type : ""; ?></td>
+                                <td><?php echo isset($blood_group) ? $blood_group : ""; ?></td>
+                                <td><?php echo isset($quantity) ? $quantity : ""; ?></td>
+                                <td><?php echo $note;?></td>
+                            </tr>
+                        </tbody>
+                        
                 <?php
 
                         }
@@ -186,9 +187,13 @@
 </body>
 
 </html>
-
 <style>
     .head{
-        background-color: #fcc358;
+        background-color: brown;
+    }
+    .w-100 btn btn-lg btn-primary{
+        background-color: black;
     }
 </style>
+
+    

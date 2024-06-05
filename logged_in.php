@@ -35,7 +35,7 @@
 
   <section class="home">
   
-    <video class="video-slide active" src="Organ Main.mp4" autoplay muted loop></video>
+  <img class="image-slide active" src="https://www.kokilabenhospital.com/blog/wp-content/uploads/2020/08/World-Organ-Donation-Day-Blog-.png" alt="Image Description">
 
     <div class="content active">
        <h1 style="color: black">Welcome! <br>Feel Free to Donate</h1>
@@ -56,81 +56,112 @@
 
   <style>
   /*Login And Sign Up Button Style Start*/
-  body {
-      background: #FFF5EE;
-    }
+    /*Login And Sign Up Button Style Start*/
+    body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #FFF5EE; /* Light peach background */
+}
 
-    .center {
-      display: flex;
-      align-items: center;
-      min-height: 50vh;
-      font-size: 1rem;
-    }
+a {
+    text-decoration: none;
+    color: inherit;
+}
 
-    .btn-1,
-    {
-      width: 132px;
-      height: 100px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
+/* Header Styles */
+header {
+    background-color: #333; /* Dark background for header */
+    padding: 15px 0;
+    text-align: center;
+}
 
-   
-   
-    .btn-1 a
-     {
-      text-decoration: none;
-      border: 2px solid #010100;
-      padding: 15px;
-      color: #000;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      position: relative;
-      display: inline-block;
-    }
+.brand {
+    color: red;
+    font-size: 24px;
+    font-weight: bold;
+}
 
-    span {
-      position: relative;
-      
-      z-index: 3;
-    }
+.navigation-items {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    /* Button 1 styles */
-    .btn-1 a::before {
-      content: "";
-      position: absolute;
-      top: 5px;
-      left: -2px;
-      width: calc(100% + 6px);
-      /*100% plus double the times left values*/
-      height: calc(100% - 10px);
-      background-color: #ffffff;
-      transition: all 0.5s ease-in-out;
-      transform: scaleY(1);
-    }
+.navigation-items a {
+    color: yellow;
+    padding: 10px 15px;
+    transition: color 0.3s;
+}
 
-    .btn-1 a:hover::before, {
-      transform: scaleY(0);
-    }
+.navigation-items a:hover {
+    color: yellow;
+}
 
-    .btn-1 a::after {
-      content: "";
-      position: absolute;
-      left: 5px;
-      top: -5px;
-      width: calc(100% - 10px);
-      /*100% plus double the times left values*/
-      height: calc(100% + 10px);
-      background-color: #ffffff;
-      transition: all 0.5s ease-in-out;
-      transform: scaleX(1);
-    }
+/* Home Section Styles */
+.home {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.image-slide {
+    position: absolute;
+    top:-12%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Adjusted for image */
+}
 
-    .btn-1 a:hover::after {
-      transform: scaleX(0);
-    }
+
+.content {
+    z-index: 1;
+    color: #fff;
+    position: absolute;
+    top: 55%;
+    left: 15%; /* Adjust this value as needed */
+    transform: translate(-50%, -50%);
+}
+
+.content h1 {
+    font-size: 3em;
+    bottom: -80px; 
+    margin-bottom: 10px;
+}
+
+.center {
+    display: left;
+    justify-content: left;
+}
+.btn-1 {
+    position: absolute;
+    /* Adjust this value as needed */
+    left: 30%;
+    transform: translateX(-50%);
+}
+
+.btn-1 a {
+    padding: 10px 20px;
+    background-color: #ff4500;
+    color: #fff;
+    border: 2px solid #ff4500;
+    border-radius: 5px;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+}
+
+.btn-1 a:hover {
+    background-color: transparent;
+    color: #ff4500;
+}
+
+/* Media Icons */
+
 
     /*Login And Sign Up Button Style End*/
 
@@ -178,86 +209,88 @@
 
 <style>
 
+/* Media Icons */
+.media-icons {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.media-icons a {
+    margin: 0 10px;
+    color: #fff;
+    font-size: 1.5em;
+}
+
+/* Container Styles */
 .container {
-    display : flex;
+    display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 50px;
 }
 
 .card {
-    background: white ;
+    background-color: #fff;
     height: 460px;
     width: 270px;
-    margin: 10px;
+    margin: 20px;
     border-radius: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    overflow: hidden;
 }
 
-.card-image{
-    background-color: aqua;
-    height:220px;
-    margin-bottom: 15px;
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-image {
+    height: 220px;
     background-size: cover;
-    border-radius: 10px 12px 0 0;
+    border-radius: 15px 15px 0 0;
 }
 
 .card-text {
-  grid-area: text;
-  margin: 30px;
-  text-align: center;
-}
-
-.card-text p {
-  color: grey;
-  font-size: 10px;
-  font-weight: 300;
+    padding: 20px;
+    text-align: center;
 }
 
 .card-text h2 {
-  margin-top: 0px;
-  font-size: 28px;
-  padding: 10px;
-  
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 10px;
 }
 
+.card a {
+    display: inline-block;
+    background-color: #ff4500;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
 
-/*card1*/
+.card a:hover {
+    background-color: #333;
+}
+
+/* Card Specific Background Images */
 .card-1 {
     background-image: url("images/request.jpg");
-    background-size: cover;
 }
+
 .card-2 {
     background-image: url("images/donation.jpg");
-    
 }
 
 .card-3 {
-  background-image: url("images/02.jpg");
+    background-image: url("images/02.jpg");
 }
-
-.card-text.card3 .date {
-  color: rgb(0, 189, 63);
-}
-
-.card a{
-    background-color: black;
-    color: white;
-    padding: 15px  20px;
-    display: block;
-    text-align: center;
-    margin : 20px 50px;
-    text-decoration: none;
-}
-
-.card:hover{
-    background-color: rgb(62,62,62);
-    color: white;
-    cursor: pointer;
-    transform: scale(1.03);
-    transition: all 0.5 ease ;
-}
-
  
-      
     </style>
   </section>
 

@@ -1,5 +1,5 @@
 <?php
-    $connection = mysqli_connect('localhost','root','','organdb');
+    $connection = mysqli_connect('localhost','root','','register');
     $recv = $_REQUEST['REGISTRATION_ID'];
     $query = "DELETE FROM registration WHERE REGISTRATION_ID = $recv";
 

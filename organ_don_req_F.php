@@ -1,5 +1,16 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Check if the EMAIL parameter is set
+if(isset($_REQUEST['EMAIL'])) {
     $user = $_REQUEST['EMAIL'];
+} 
+
+// Check if the BLOOD_GROUP parameter is set
+if(isset($_REQUEST['BLOOD_GROUP'])) {
+    $req = $_REQUEST['BLOOD_GROUP'];
+} 
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +52,10 @@
                         <h3 class="text-left" style="font-size:30px;font-family: 'Poppins', sans-serif; font-weight:700; color:azure;"> BE A DONOR</h3>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-5 col-xl-4 m-auto pt-4 pt-sm-0">
-                        <div class="su-inner-banner-img"><img alt="image" class="img-fluid" style="padding: 25px 0px 25px;" src="images/female.png"></div>
+                    <div class="su-inner-banner-img">
+    <img alt="image" class="img-fluid small-image" style="padding: 25px 0px 25px;" src="images/female don6.webp">
+</div>
+
                     </div>
                 </div>
             </div>
@@ -52,16 +66,33 @@
             <section class="row jumbotron justify-content-center">
                 <section class="col-l4 col-sm-6">
                 <?php
-                    $con = new mysqli('localhost', 'root', '', 'organdb');
+
+if(isset($_POST['submit'])) {
+    // Database connection
+    $con = new mysqli('localhost', 'root', '', 'register');
+    if ($con->connect_error) {
+        die("Connection failed: " . $con->connect_error);
+    }
+                    $con = new mysqli('localhost', 'root', '', 'register');
                     $user = $_REQUEST['EMAIL'];
-                    $req = $_REQUEST['blodr'];
+                    $req = $_REQUEST['BLOOD_GROUP'];
                     $qu1 = "SELECT * FROM registration WHERE EMAIL = '$user'";
-                    $qu_req = "SELECT * FROM organ_requests WHERE REQUEST_ID = $req";
-                   
+                  
+                    $qu_req = "SELECT * FROM organ_requests WHERE REQUEST_ID = ?";
                     $values = mysqli_query($con, $qu1);
-                    $values2 = mysqli_query($con, $qu_req);
+                  $stmt = $con->prepare($qu_req);
+                  $stmt->bind_param("i", $req);
+                   $stmt->execute();
+                  $values2 = $stmt->get_result();
+
+                  error_reporting(E_ALL);
+                  ini_set('display_errors', 1);
+
+
                     $height = "";
                     $quantity = "";
+                    $AGE = "";
+                    
                     while ($row = mysqli_fetch_assoc($values)) {
                         
                         $REGISTRATION_ID = $row['REGISTRATION_ID'];
@@ -72,7 +103,8 @@
                     }
                     if (isset($_POST['submit'])) {
                         $Weight = $_POST['WEIGHT'];
-                        
+                        $user = $_POST['EMAIL'];
+                        $req = $_POST['BLOOD_GROUP'];
                         $b = $_POST['feet'];
                         $c = $_POST['inches'];
                         $d = ($b*12) + $c;
@@ -125,9 +157,9 @@
                                                 mysqli_query($con, $update_quer);
                                             }
     
-                                            $stmt = $con->prepare("INSERT INTO donor(REGISTRATION_ID,WEIGHT,BMI,OPERATION_TYPE,OPERATION_DESC,DISEASE_TYPE,DISEASE_DESC,ACCIDENT_TYPE,ACCIDENT_DESC)
+                                            $stmt = $con->prepare("INSERT INTO donor(REGISTRATION_ID,WEIGHT,EMAIL,BLOOD_GROUP,BMI,OPERATION_TYPE,OPERATION_DESC,DISEASE_TYPE,DISEASE_DESC,ACCIDENT_TYPE,ACCIDENT_DESC)
                                                 values(?,?,?,?,?,?,?,?,?)");
-                                            $stmt->bind_param("iiissssss", $REGISTRATION_ID,$Weight,$Bmi,$Operation_Type, $Operation_Desc,$Disease_Type,$Disease_Desc,$Accident_Type,$Accident_Desc);
+                                            $stmt->bind_param("iiissssss", $REGISTRATION_ID,$user,$req,$Weight,$Bmi,$Operation_Type, $Operation_Desc,$Disease_Type,$Disease_Desc,$Accident_Type,$Accident_Desc);
                                             $stmt->execute();
                                             $stmt->close();
                                             $con->close();
@@ -159,17 +191,14 @@
                                     </div>
                                 <?php
                                 }
-                            } else {
-                                ?>
-                                <div class="alert alert-danger" role="alert">
-                                    You must be at least 18 years Old
-                                </div>
-                        <?php
                             }
                         }
+                    }
                         ?>
                     <form action="" method="post" name="myform">
 
+                    <input type="hidden" name="EMAIL" value="<?php echo $user ?>">
+                     <input type="hidden" name="BLOOD_GROUP" value="<?php echo $req ?>">
                        <div class="mb-4 ">
                             <label for="exampleInputEmail1" class="form-label">Height</label>
                             <input type="text" class="form-control" placeholder="Feet eg(01)" name="feet" required>
@@ -299,13 +328,20 @@
 
 <style>
     .header{
-        background-color: #fcc358;
+        background-color:darkblue;
     }
     .btnc{
-        background: #fcc358
+        background: darkblue;
+        color: yellow;
     }
+    .small-image {
+    height: 200px; /* Set your desired height */
+    width: auto; /* This maintains the aspect ratio */
+}
+
+
     .btnc:hover{
-    background: #ffbb00;
+    background: red;
     </style>
 
     
